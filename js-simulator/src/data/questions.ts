@@ -1975,31 +1975,33 @@ var y = x + 10;`,
   type: "matching",
 
   question:
-    "You are writing a JavaScript program that collects employee data and stores it in a database. Your program handles a wide variety of data, including text and different types of numbers. For each code segment, determine the data type that is being handled.",
+    "For each code segment, determine the data type.",
 
   leftItems: [
     { id: 1, text: "Boolean" },
     { id: 2, text: "Number" },
-    { id: 3, text: "Object" },
-    { id: 4, text: "String" },
-    { id: 5, text: "Undefined" }
+    { id: 3, text: "String" },
+    { id: 4, text: "Object" },
+    { id: 5, text: "Undefined" },
   ],
 
   rightItems: [
-    { id: 1, text: "var age = 23;" },
-    { id: 2, text: "var exempt = false;" },
-    { id: 3, text: "var initial = 'D';" },
-    { id: 4, text: "var salary = 123.5;" },
-    { id: 5, text: 'var zip = "81000";' }
+    {
+      id: 1,
+      text: "var age = 23;",
+      correctId: 2,
+    },
+    {
+      id: 2,
+      text: "var exempt = false;",
+      correctId: 1,
+    },
+    {
+      id: 3,
+      text: "var initial = 'D';",
+      correctId: 3,
+    },
   ],
-
-  correctMatches: {
-    "1": 2,
-    "2": 1,
-    "3": 4,
-    "4": 2,
-    "5": 4
-  }
 },
 {
   id: 40,

@@ -1,10 +1,5 @@
-import { useState } from "react";
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
-
+import { useEffect, useState } from "react";
 import type { Question } from "../../types/Question";
-
-import DragItem from "../DragItem";
-import DropZone from "../DropZone";
 
 interface Props {
   question: Question;
@@ -17,37 +12,33 @@ export default function MatchingQuestion({
   value,
   onChange,
 }: Props) {
+
   if (!question.leftItems || !question.rightItems) {
     return null;
   }
 
-  const leftItems = question.leftItems;
-  const rightItems = question.rightItems;
-
-  // cheia = id-ul din dreapta
-  // valoarea = id-ul din stânga
-  const [matches, setMatches] = useState<Record<number, number>>(
+  const [answers, setAnswers] = useState<Record<number, number>>(
     value ?? {}
   );
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  useEffect(() => {
+    onChange(answers);
+  }, [answers, onChange]);
 
-    if (!over) return;
+  const handleChange = (
+    rightId: number,
+    leftId: number
+  ) => {
 
-    const leftId = Number(active.id);
-    const rightId = Number(over.id);
-
-    const updated = {
-      ...matches,
+    setAnswers(prev => ({
+      ...prev,
       [rightId]: leftId,
-    };
+    }));
 
-    setMatches(updated);
-    onChange(updated);
   };
 
   return (
+
     <div className="space-y-8">
 
       <h2 className="text-xl font-bold">
@@ -60,71 +51,90 @@ export default function MatchingQuestion({
         </pre>
       )}
 
-      <DndContext onDragEnd={handleDragEnd}>
+      <div className="grid md:grid-cols-2 gap-10">
 
-        <div className="grid md:grid-cols-2 gap-10">
+        <div>
 
-          <div>
+          <h3 className="font-semibold mb-3">
+            Available options
+          </h3>
 
-            <h3 className="font-semibold mb-3">
-              Left
-            </h3>
+          <div className="space-y-3">
 
-            <div className="space-y-3">
+            {question.leftItems.map(item => (
 
-              {leftItems.map((item) => (
+              <div
+                key={item.id}
+                className="border rounded-lg p-3 bg-slate-50"
+              >
+                {item.text}
+              </div>
 
-                <DragItem
-                  key={item.id}
-                  id={item.id}
-                  text={item.text}
-                />
-
-              ))}
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <h3 className="font-semibold mb-3">
-              Match Here
-            </h3>
-
-            <div className="space-y-3">
-
-              {rightItems.map((item) => {
-
-                const selectedLeftId = matches[item.id];
-
-                const selectedText =
-                  leftItems.find(
-                    left => left.id === selectedLeftId
-                  )?.text;
-
-                return (
-
-                  <DropZone
-                    key={item.id}
-                    id={item.id}
-                    text={
-                      selectedText ?? item.text
-                    }
-                  />
-
-                );
-
-              })}
-
-            </div>
+            ))}
 
           </div>
 
         </div>
 
-      </DndContext>
+        <div>
+
+          <h3 className="font-semibold mb-3">
+            Select the correct answer
+          </h3>
+
+          <div className="space-y-4">
+
+            {question.rightItems.map(item => (
+
+              <div
+                key={item.id}
+                className="space-y-2"
+              >
+
+                <div className="font-medium">
+                  {item.text}
+                </div>
+
+                <select
+                  className="w-full border rounded-lg p-3"
+                  value={answers[item.id] ?? ""}
+                  onChange={(e) =>
+                    handleChange(
+                      item.id,
+                      Number(e.target.value)
+                    )
+                  }
+                >
+
+                  <option value="">
+                    Select...
+                  </option>
+
+                  {question.leftItems!.map(option => (
+
+                    <option
+                      key={option.id}
+                      value={option.id}
+                    >
+                      {option.text}
+                    </option>
+
+                  ))}
+
+                </select>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
+
   );
+
 }

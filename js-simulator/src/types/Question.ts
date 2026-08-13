@@ -41,6 +41,7 @@ export interface TrueFalseStatement {
 export interface MatchingItem {
   id: number;
   text: string;
+  correctId?: number;
 }
 export interface MatchingMap {
   [leftId: string]: number;
