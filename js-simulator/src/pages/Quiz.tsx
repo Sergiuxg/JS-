@@ -138,6 +138,8 @@ const Quiz = () => {
               : "☆ Mark for Review"}
           </button>
 
+          console.log(quiz[currentQuestion]);
+
           <QuestionRenderer
             question={quiz[currentQuestion]}
             value={currentAnswer}

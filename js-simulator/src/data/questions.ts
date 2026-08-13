@@ -366,17 +366,17 @@ Note: There is more than one correct order. You will receive partial credit for 
 
   code: `var category;
 
-[Dropdown1]
+________________________
 {
     category = "CAT1";
 }
 
-[Dropdown2]
+________________________
 {
     category = "CAT2";
 }
 
-[Dropdown3]
+________________________
 {
     category = "CAT3";
 }`,
@@ -1445,7 +1445,7 @@ console.log(calculate("multiply", 4, 3));`,
 {
   id: 26,
 
-  type: "multiple_choice",
+  type: "single",
 
   question:
     "You are working on an application for a hotel. The application should display each type of room on a new line within a paragraph. Which line of code should you use at line 09?",
@@ -1542,14 +1542,14 @@ function checkWarning() {
   type: "dropdown",
 
   question:
-    "Your instructor asks you to write a program that helps determine whether a person should take the train, drive their car, or ride their bike based on the weather conditions and the amount of gas in the car's tank. Complete the code by selecting the correct option from each drop-down list.",
+    "Your instructor asks you to write a program that uses simple rules to help determine whether a person should take the train (Take Train), drive their car (Drive your car), or ride their bike (Ride Bike), depending on the weather conditions and the amount of gas in their car's tank.\n\nThe program must implement the following rules:\n\n• When the temperature is above 65 degrees and it is not raining, the person should ride their bike.\n• When it is raining, the person should drive their car.\n• If the fuel tank has half a tank of gas or less, the person should take the train.\n\nComplete the code by selecting the correct option from each drop-down list.\n\nNote: You will receive partial credit for each correct selection.",
 
   code: `let advice = "";
 
-if (temperature > 65 ________________________ !raining) {
+if (temperature > 65 [Dropdown 1] !raining) {
     advice = "Ride Bike";
 }
-else if (fuelTank ________________________ .5) {
+else if (fuelTank [Dropdown 2] .5) {
     advice = "Take Train";
 }
 else {
@@ -1559,6 +1559,7 @@ else {
   dropdowns: [
     {
       id: 1,
+      label: "Dropdown 1",
       options: [
         { id: 1, text: "&&" },
         { id: 2, text: "==" },
@@ -1569,6 +1570,7 @@ else {
     },
     {
       id: 2,
+      label: "Dropdown 2",
       options: [
         { id: 1, text: "<=" },
         { id: 2, text: "&&" },
@@ -1674,7 +1676,7 @@ array.unshift(100);`,
 {
   id: 31,
 
-  type: "multiple_choice",
+  type: "single",
 
   question:
     "You are designing a web page with a script that must dynamically change the content of a paragraph element to display the value returned by the function randomQuote(). Which code segment should you use at line 08?",
@@ -1715,7 +1717,7 @@ array.unshift(100);`,
 {
   id: 32,
 
-  type: "multiple_choice",
+  type: "single",
 
   question:
     "You need to create an external JavaScript file that contains a function named showArea. The function displays the area of a rectangle. Which code segment correctly implements this requirement?",
@@ -1823,7 +1825,7 @@ function showArea(length, width) {
 {
   id: 35,
 
-  type: "multiple_choice",
+  type: "single",
 
   question:
     "You review the following JavaScript code. When the code runs, what is the value of y?",
@@ -2086,13 +2088,13 @@ function notify() {
 <script>
 function addScoreField() {
 
-    var field = document.[DropDown1]("input");
+    var field = document.________________________("input");
 
-    field.[DropDown2]("type", "number");
-    field.[DropDown3]("placeholder", "Enter Score");
+    field.________________________("type", "number");
+    field.________________________("placeholder", "Enter Score");
 
     var container = document.getElementById("container");
-    container.[DropDown4](field);
+    container.________________________(field);
 }
 </script>
 </head>
@@ -2175,25 +2177,19 @@ iNum = iNum.substr(2, 2);`,
   options: [
     {
       id: 1,
-      text: `// A
-var iNum = parseInt("42fred");`
+      text: `A`
     },
     {
       id: 2,
-      text: `// B
-var iNum = "42fred";`
+      text: `B`
     },
     {
       id: 3,
-      text: `// C
-var iNum = "42fred";
-iNum = iNum.substr(1, 2);`
+      text: `C`
     },
     {
       id: 4,
-      text: `// D
-var iNum = "42fred";
-iNum = iNum.substr(2, 2);`
+      text: `D`
     }
   ],
 
@@ -2515,8 +2511,8 @@ function getProduct() {
     },
 
     {
-      id: 3,
-      label: "Dropdown 3",
+      id: 4,
+      label: "Dropdown 4",
       options: [
         { id: 1, text: "if (a >= 0) {" },
         { id: 2, text: "if (b % 2 == 0) {" },
@@ -2594,15 +2590,17 @@ function add() {
   type: "fill_in_order",
 
   question:
-    "You need to create a function named add() that adds the values in the a and b input elements and displays the result in the result input element. Complete the code by dragging the correct code segments into the empty slots. Not all code segments will be used.",
+    "You need to create a function named add() that adds the values entered in the a and b input elements and displays the result in the result input element. Drag the correct code segments into the three empty slots. Not all code segments will be used.",
 
-  code: `function add() {
+  code: `
 
-    ____________________________________________
+function add() {
 
-    ____________________________________________
+    [Slot 1]
 
-    ____________________________________________
+    [Slot 2]
+
+    [Slot 3]
 
 }`,
 

@@ -17,17 +17,20 @@ export default function MatchingQuestion({
   value,
   onChange,
 }: Props) {
-
   if (!question.leftItems || !question.rightItems) {
     return null;
   }
 
+  const leftItems = question.leftItems;
+  const rightItems = question.rightItems;
+
+  // cheia = id-ul din dreapta
+  // valoarea = id-ul din stânga
   const [matches, setMatches] = useState<Record<number, number>>(
     value ?? {}
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
-
     const { active, over } = event;
 
     if (!over) return;
@@ -37,16 +40,14 @@ export default function MatchingQuestion({
 
     const updated = {
       ...matches,
-      [leftId]: rightId,
+      [rightId]: leftId,
     };
 
     setMatches(updated);
     onChange(updated);
   };
 
-
   return (
-
     <div className="space-y-8">
 
       <h2 className="text-xl font-bold">
@@ -71,7 +72,7 @@ export default function MatchingQuestion({
 
             <div className="space-y-3">
 
-              {question.leftItems.map((item) => (
+              {leftItems.map((item) => (
 
                 <DragItem
                   key={item.id}
@@ -93,30 +94,28 @@ export default function MatchingQuestion({
 
             <div className="space-y-3">
 
-              {question.rightItems.map((item) => (
+              {rightItems.map((item) => {
 
-                <DropZone
-                  key={item.id}
-                  id={item.id}
-                  text={
-                    Object.entries(matches).find(
-                      ([, value]) => value === item.id
-                    )
-                      ? question.leftItems?.find(
-                          left =>
-                            left.id ===
-                            Number(
-                              Object.entries(matches).find(
-                                ([, value]) =>
-                                  value === item.id
-                              )?.[0]
-                            )
-                        )?.text
-                      : item.text
-                  }
-                />
+                const selectedLeftId = matches[item.id];
 
-              ))}
+                const selectedText =
+                  leftItems.find(
+                    left => left.id === selectedLeftId
+                  )?.text;
+
+                return (
+
+                  <DropZone
+                    key={item.id}
+                    id={item.id}
+                    text={
+                      selectedText ?? item.text
+                    }
+                  />
+
+                );
+
+              })}
 
             </div>
 
@@ -127,7 +126,5 @@ export default function MatchingQuestion({
       </DndContext>
 
     </div>
-
   );
-
 }
