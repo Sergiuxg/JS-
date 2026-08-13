@@ -44,13 +44,6 @@ export default function MatchingQuestion({
     onChange(updated);
   };
 
-  const getRightText = (rightId: number) => {
-    return (
-      question.rightItems?.find(
-        (item) => item.id === rightId
-      )?.text ?? ""
-    );
-  };
 
   return (
 

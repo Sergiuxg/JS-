@@ -1,4 +1,3 @@
-import type { Dispatch, SetStateAction } from "react";
 import type { Question } from "./Question";
 import type { UserAnswer } from "./UserAnswer";
 

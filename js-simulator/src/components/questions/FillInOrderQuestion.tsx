@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import {
   DndContext,
-  DragEndEvent,
   closestCenter,
+  DragEndEvent,
 } from "@dnd-kit/core";
 
 import {
   SortableContext,
   verticalListSortingStrategy,
+  arrayMove,
 } from "@dnd-kit/sortable";
 
 import type { Question } from "../../types/Question";
-
-import DragItem from "../DragItem";
-import DropZone from "../DropZone";
+import SortableItem from "../SortableItem";
 
 interface Props {
   question: Question;
@@ -23,7 +22,7 @@ interface Props {
 
 export default function FillInOrderQuestion({
   question,
-  value,
+  value: _value,
   onChange,
 }: Props) {
 
@@ -31,83 +30,45 @@ export default function FillInOrderQuestion({
     return null;
   }
 
-  const [availableItems, setAvailableItems] = useState(
-    question.orderItems
-  );
-
-  const [slots, setSlots] = useState<(typeof question.orderItems[number] | null)[]>(
-    Array(question.slots ?? question.correctOrder?.length ?? 0).fill(null)
-  );
+  const [items, setItems] = useState(
+  question.orderItems
+);
 
   useEffect(() => {
-
-    onChange(
-      slots.map(item => item?.id ?? null)
-    );
-
-  }, [slots]);
+    onChange(items.map((item: any) => item.id));
+  }, [items]);
 
   const handleDragEnd = (event: DragEndEvent) => {
 
     const { active, over } = event;
 
-    if (!over) return;
+    if (!over || active.id === over.id) {
+      return;
+    }
 
-    const dragged =
-      availableItems.find(
-        item => item.id === active.id
-      );
-
-    if (!dragged) return;
-
-    const slotIndex = Number(over.id);
-
-    if (slots[slotIndex]) return;
-
-    const newSlots = [...slots];
-    newSlots[slotIndex] = dragged;
-
-    setSlots(newSlots);
-
-    setAvailableItems(
-      availableItems.filter(
-        item => item.id !== dragged.id
-      )
+    const oldIndex = items.findIndex(
+      (item: any) => item.id === active.id
     );
 
-  };
+    const newIndex = items.findIndex(
+      (item: any) => item.id === over.id
+    );
 
-  const removeItem = (index: number) => {
-
-    if (!slots[index]) return;
-
-    setAvailableItems([
-      ...availableItems,
-      slots[index]!,
-    ]);
-
-    const newSlots = [...slots];
-
-    newSlots[index] = null;
-
-    setSlots(newSlots);
-
+    setItems(arrayMove(items, oldIndex, newIndex));
   };
 
   return (
 
-    <div className="space-y-8">
+    <div className="space-y-6">
 
       <h2 className="text-xl font-bold">
         {question.question}
       </h2>
 
       {question.code && (
-
-        <pre className="bg-slate-900 text-green-300 rounded-xl p-5 overflow-auto whitespace-pre-wrap">
+        <pre className="bg-slate-900 text-green-300 rounded-lg p-4 overflow-auto whitespace-pre-wrap">
           <code>{question.code}</code>
         </pre>
-
       )}
 
       <DndContext
@@ -115,80 +76,26 @@ export default function FillInOrderQuestion({
         onDragEnd={handleDragEnd}
       >
 
-        <div className="grid lg:grid-cols-2 gap-10">
+        <SortableContext
+          items={items}
+          strategy={verticalListSortingStrategy}
+        >
 
-          <div>
+          <div className="space-y-3">
 
-            <h3 className="font-semibold mb-4">
-              Available Code
-            </h3>
+            {items.map((item: any) => (
 
-            <SortableContext
-              items={availableItems}
-              strategy={verticalListSortingStrategy}
-            >
+              <SortableItem
+                key={item.id}
+                id={item.id}
+                text={item.text}
+              />
 
-              <div className="space-y-3">
-
-                {availableItems.map(item => (
-
-                  <DragItem
-                    key={item.id}
-                    id={item.id}
-                    text={item.text}
-                  />
-
-                ))}
-
-              </div>
-
-            </SortableContext>
+            ))}
 
           </div>
 
-          <div>
-
-            <h3 className="font-semibold mb-4">
-              Arrange Here
-            </h3>
-
-            <div className="space-y-3">
-
-              {slots.map((item, index) => (
-
-                <DropZone
-                  key={index}
-                  id={index}
-                >
-
-                  {item ? (
-
-                    <div
-                      className="bg-indigo-100 rounded-lg p-3 cursor-pointer"
-                      onClick={() =>
-                        removeItem(index)
-                      }
-                    >
-                      {item.text}
-                    </div>
-
-                  ) : (
-
-                    <div className="text-slate-400">
-                      Drop code here
-                    </div>
-
-                  )}
-
-                </DropZone>
-
-              ))}
-
-            </div>
-
-          </div>
-
-        </div>
+        </SortableContext>
 
       </DndContext>
 
