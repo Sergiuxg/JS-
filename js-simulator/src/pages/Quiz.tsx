@@ -138,13 +138,15 @@ const Quiz = () => {
               : "☆ Mark for Review"}
           </button>
 
+          
+
           console.log(quiz[currentQuestion]);
 
-          <QuestionRenderer
-            question={quiz[currentQuestion]}
-            value={currentAnswer}
-            onChange={handleAnswer}
-          />
+<QuestionRenderer
+  question={quiz[currentQuestion]}
+  value={currentAnswer}
+  onChange={handleAnswer}
+/>
 
           {error && (
             <p className="mt-4 text-red-600 font-medium">

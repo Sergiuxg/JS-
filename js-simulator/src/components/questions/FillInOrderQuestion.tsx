@@ -1,18 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  DndContext,
-  closestCenter,
-  DragEndEvent,
-} from "@dnd-kit/core";
-
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  arrayMove,
-} from "@dnd-kit/sortable";
 
 import type { Question } from "../../types/Question";
-import SortableItem from "../SortableItem";
 
 interface Props {
   question: Question;
@@ -22,39 +10,33 @@ interface Props {
 
 export default function FillInOrderQuestion({
   question,
-  value: _value,
+  value,
   onChange,
 }: Props) {
 
-  if (!question.orderItems) {
+  if (!question.orderItems || !question.slots) {
     return null;
   }
 
-  const [items, setItems] = useState(
-  question.orderItems
-);
+  const [answers, setAnswers] = useState<number[]>(
+    value ?? Array(question.slots).fill(0)
+  );
 
   useEffect(() => {
-    onChange(items.map((item: any) => item.id));
-  }, [items]);
+    onChange(answers);
+  }, [answers]);
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const changeAnswer = (
+    index: number,
+    optionId: number
+  ) => {
 
-    const { active, over } = event;
+    const updated = [...answers];
 
-    if (!over || active.id === over.id) {
-      return;
-    }
+    updated[index] = optionId;
 
-    const oldIndex = items.findIndex(
-      (item: any) => item.id === active.id
-    );
+    setAnswers(updated);
 
-    const newIndex = items.findIndex(
-      (item: any) => item.id === over.id
-    );
-
-    setItems(arrayMove(items, oldIndex, newIndex));
   };
 
   return (
@@ -66,38 +48,62 @@ export default function FillInOrderQuestion({
       </h2>
 
       {question.code && (
-        <pre className="bg-slate-900 text-green-300 rounded-lg p-4 overflow-auto whitespace-pre-wrap">
+
+        <pre className="bg-slate-900 text-green-300 rounded-xl p-6 overflow-auto whitespace-pre-wrap">
+
           <code>{question.code}</code>
+
         </pre>
+
       )}
 
-      <DndContext
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
+      <div className="space-y-4">
 
-        <SortableContext
-          items={items}
-          strategy={verticalListSortingStrategy}
-        >
+        {Array.from({
+          length: question.slots,
+        }).map((_, index) => (
 
-          <div className="space-y-3">
+          <div key={index}>
 
-            {items.map((item: any) => (
+            <label className="block mb-2 font-semibold">
 
-              <SortableItem
-                key={item.id}
-                id={item.id}
-                text={item.text}
-              />
+              Slot {index + 1}
 
-            ))}
+            </label>
+
+            <select
+              value={answers[index]}
+              onChange={(e) =>
+                changeAnswer(
+                  index,
+                  Number(e.target.value)
+                )
+              }
+              className="w-full rounded-lg border p-3"
+            >
+
+              <option value={0}>
+                Select code...
+              </option>
+
+              {question.orderItems.map((item) => (
+
+                <option
+                  key={item.id}
+                  value={item.id}
+                >
+                  {item.text}
+                </option>
+
+              ))}
+
+            </select>
 
           </div>
 
-        </SortableContext>
+        ))}
 
-      </DndContext>
+      </div>
 
     </div>
 

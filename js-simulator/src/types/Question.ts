@@ -83,6 +83,7 @@ export interface Question {
 
   correctOptionIds?: number[];
 slots?: number;
+
   dropdowns?: Dropdown[];
 
   statements?: TrueFalseStatement[];
