@@ -33,7 +33,7 @@ export const calculateScore = (
 
         if (question.correctOptionIds) {
 
-          const user = (userAnswer.answer as number[]).sort();
+          const user = [...(userAnswer.answer as number[])].sort();
 
           const correct = [...question.correctOptionIds].sort();
 
@@ -121,18 +121,25 @@ export const calculateScore = (
 
       case "matching": {
 
-        const user =
-          userAnswer.answer as Record<number, number>;
+  const user =
+    userAnswer.answer as Record<number, number>;
 
-        if (
-          JSON.stringify(user) ===
-          JSON.stringify(question.correctMatches)
-        ) {
-          score++;
-        }
+  let ok = true;
 
-        break;
-      }
+  question.rightItems?.forEach((item) => {
+
+    if (user[item.id] !== item.correctId) {
+      ok = false;
+    }
+
+  });
+
+  if (ok) {
+    score++;
+  }
+
+  break;
+}
 
       case "fill_in_order": {
 
