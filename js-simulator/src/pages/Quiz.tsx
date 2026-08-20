@@ -112,6 +112,8 @@ const Quiz = () => {
     });
   };
 
+            console.log(quiz[currentQuestion]);
+
   return (
     <QuizLayout>
       <div className="flex justify-end mb-6">
@@ -140,7 +142,6 @@ const Quiz = () => {
 
           
 
-          console.log(quiz[currentQuestion]);
 
 <QuestionRenderer
   question={quiz[currentQuestion]}
