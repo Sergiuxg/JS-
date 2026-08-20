@@ -1310,22 +1310,22 @@ console.log(calculate("multiply", 4, 3));`,
     {
       id: 2,
       options: [
-        { id: 1, text: "function multiply(a,b) {" },
-        { id: 2, text: "function multiply(x,y) {" },
-        { id: 3, text: "function multiply(n,d) {" },
-        { id: 4, text: "function multiply() {" }
+        { id: 1, text: "return divide(a,b) {" },
+        { id: 2, text: "return divide(x,y) {" },
+        { id: 3, text: "return divide(n,d) {" },
+        { id: 4, text: "return divide() {" }
       ],
-      correctOptionId: 2
+      correctOptionId: 1
     },
     {
       id: 3,
       options: [
-        { id: 1, text: "return divide(a,b);" },
-        { id: 2, text: "return divide(x,y);" },
-        { id: 3, text: "return divide(n,d);" },
-        { id: 4, text: "return divide();" }
+        { id: 1, text: "function multiply(a,b);" },
+        { id: 2, text: "function multiply(x,y);" },
+        { id: 3, text: "function multiply(n,d);" },
+        { id: 4, text: "function multiply();" }
       ],
-      correctOptionId: 1
+      correctOptionId: 2
     },
     {
       id: 4,
@@ -1972,36 +1972,84 @@ var y = x + 10;`,
 {
   id: 39,
 
-  type: "matching",
+  type: "dropdown",
 
   question:
-    "For each code segment, determine the data type.",
+    "You are writing a JavaScript program that collects employee data and stores it in a database. Your program handles a wide variety of data, including text and different types of numbers.\n\nYou need to ensure that the program handles the data so that it can be stored in the database with the correct data type.\n\nFor each code segment, determine the data type that is being handled.\n\nComplete the code by selecting the correct option from each drop-down list.\n\nNote: You will receive partial credit for each correct selection.",
 
-  leftItems: [
-    { id: 1, text: "Boolean" },
-    { id: 2, text: "Number" },
-    { id: 3, text: "String" },
-    { id: 4, text: "Object" },
-    { id: 5, text: "Undefined" },
-  ],
+  code: `var age = 23;               [Dropdown 1]
 
-  rightItems: [
+var exempt = false;      [Dropdown 2]
+
+var initial = 'D';       [Dropdown 3]
+
+var salary = 123.5;      [Dropdown 4]
+
+var zip = "81000";       [Dropdown 5]`,
+
+  dropdowns: [
+
     {
       id: 1,
-      text: "var age = 23;",
-      correctId: 2,
+      options: [
+        { id: 1, text: "Boolean" },
+        { id: 2, text: "Number" },
+        { id: 3, text: "Object" },
+        { id: 4, text: "String" },
+        { id: 5, text: "Undefined" },
+      ],
+      correctOptionId: 2,
     },
+
     {
       id: 2,
-      text: "var exempt = false;",
-      correctId: 1,
+      options: [
+        { id: 1, text: "Boolean" },
+        { id: 2, text: "Number" },
+        { id: 3, text: "Object" },
+        { id: 4, text: "String" },
+        { id: 5, text: "Undefined" },
+      ],
+      correctOptionId: 1,
     },
+
     {
       id: 3,
-      text: "var initial = 'D';",
-      correctId: 3,
+      options: [
+        { id: 1, text: "Boolean" },
+        { id: 2, text: "Number" },
+        { id: 3, text: "Object" },
+        { id: 4, text: "String" },
+        { id: 5, text: "Undefined" },
+      ],
+      correctOptionId: 4,
     },
-  ],
+
+    {
+      id: 4,
+      options: [
+        { id: 1, text: "Boolean" },
+        { id: 2, text: "Number" },
+        { id: 3, text: "Object" },
+        { id: 4, text: "String" },
+        { id: 5, text: "Undefined" },
+      ],
+      correctOptionId: 2,
+    },
+
+    {
+      id: 5,
+      options: [
+        { id: 1, text: "Boolean" },
+        { id: 2, text: "Number" },
+        { id: 3, text: "Object" },
+        { id: 4, text: "String" },
+        { id: 5, text: "Undefined" },
+      ],
+      correctOptionId: 4,
+    }
+
+  ]
 },
 {
   id: 40,
@@ -2509,7 +2557,7 @@ function getProduct() {
         { id: 3, text: "if (a >= 0) {" },
         { id: 4, text: "else {" }
       ],
-      correctOptionId: 2
+      correctOptionId: 1
     },
 
     {
@@ -3376,24 +3424,30 @@ var id = flight + flightDestination;`,
   type: "drag_drop",
 
   question:
-    "Write a loop that traverses an array to find the value 'orange'. If an element is null, immediately go to the next element. When the value is found, exit the loop.",
+    "You need to write a loop that performs the following tasks:\n\n" +
+    "• Traverse the length of an array to find the value 'orange'.\n" +
+    "• If an array element value is null, immediately go to the next element.\n" +
+    "• When the value is found, exit the loop.\n\n" +
+    "Complete the code by moving the appropriate keywords from the list on the left to the correct positions on the right.\n\n" +
+    "You may use each keyword once, more than once, or not at all.",
 
   code: `function doWork() {
 
     var list = ['apple', 'pear', null, 'orange', 'banana'];
 
-    ______________________ (i = 0; i < list.length; i++) {
+    __________________ (i = 0; i < list.length; i++) {
 
         if (list[i] == null)
-            ______________________;
+            __________________;
 
         if (list[i] == 'orange') {
             alert('found');
-            ______________________;
+            __________________;
         }
 
         console.log(list[i]);
     }
+
 }`,
 
   orderItems: [
